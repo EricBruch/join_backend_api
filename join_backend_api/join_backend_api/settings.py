@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # Thirs-Party Apps
     'rest_framework',
     'rest_framework.authtoken',
+    "corsheaders",
 
 
     # project Apps
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -143,3 +145,43 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+
+
+# ----------------------------  #
+# DJANGO CORS HEADERS SETTINGS  #
+# ----------------------------  #
+
+# Origins
+
+CORS_ALLOW_ALL_ORIGINS: True
+
+# CORS_ALLOWED_ORIGINS = [
+#     # "https://example.com",
+#     # "https://sub.example.com",
+#     # "http://localhost:8080",
+#     # "http://127.0.0.1:9000",
+# ]
+
+# CORS_ALLOWED_ORIGIN_REGEXES = [
+#     # r"^https://\w+\.example\.com$",
+# ]
+
+# allowed methods
+from corsheaders.defaults import default_methods
+
+CORS_ALLOW_METHODS = list(default_methods) + [
+    "HEAD",
+    "CONNECT",
+    "TRACE",
+]
+
+# allowed headers
+from corsheaders.defaults import default_headers
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    # "my-custom-header",
+]
+
+CORS_PREFLIGHT_MAX_AGE: 86400  # Defaults to 86400 (one day).
+
+CORS_ALLOW_CREDENTIALS: True #  Defaults to False. # if True: cookies will be allowed to be included in cross-site HTTP requests
