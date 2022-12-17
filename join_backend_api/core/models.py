@@ -21,9 +21,11 @@ class Task(models.Model):
         default=(datetime.datetime.now() + relativedelta(months=+3))
     )
     created_at = models.DateField(default=datetime.datetime.now())
-    # board = models.ForeignKey('Board', on_delete=models.CASCADE)
+    board = models.ForeignKey('Board', on_delete=models.CASCADE)
 
-    # parent = models.ForeignKey('Task', on_delete=models.CASCADE)
+    parent = models.ForeignKey(
+        'self', blank=True, null=True, related_name='children', on_delete=models.CASCADE
+    )
     # subtask = models.ManyToManyField('self', blank=True)
 
     Urgency = models.TextChoices('Urgency', ['URGENT', 'MEDIUM', 'LOW'])
