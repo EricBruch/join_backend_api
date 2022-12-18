@@ -35,25 +35,26 @@ class Task(models.Model):
     parent = models.ForeignKey(
         'self', blank=True, null=True, related_name='children', on_delete=models.CASCADE
     )
-
     urgency = models.CharField(
         choices=Urgency.choices,
         max_length=20,
         default=Urgency.MEDIUM,
     )
-
     status = models.CharField(
         choices=Status.choices,
         max_length=20,
         default=Status.BACKLOG
     )
+    comments = models.ManyToManyField(
+        User, through='TaskCommentsMapping', related_name='comments'
+    )
 
 
-# class TaskUserCommentMapping(models.Model):
-#     created_at = models.DateField(default=now())
-#     text = models.CharField(max_length=500)
-#     author = models.ForeignKey(User, on_delete=models.CASCADE)
-#     onTask = models.ForeignKey(Task, on_delete=models.CASCADE)
+class TaskCommentsMapping(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    text = models.CharField(max_length=500)
+    created_at = models.DateField(default=now())
 
 
 # class TaskUserIsAssignedMapping(models.Model):
