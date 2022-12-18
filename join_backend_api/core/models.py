@@ -24,6 +24,7 @@ class Board(models.Model):
 
 class Task(models.Model):
     title = models.CharField(max_length=100, default='')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.CharField(max_length=20, default='')
     description = models.CharField(max_length=300, default='')
     due_date = models.DateField(
@@ -48,14 +49,14 @@ class Task(models.Model):
     )
 
 
-class TaskUserCommentMapping(models.Model):
-    created_at = models.DateField(default=now())
-    text = models.CharField(max_length=500)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    onTask = models.ForeignKey(Task, on_delete=models.CASCADE)
+# class TaskUserCommentMapping(models.Model):
+#     created_at = models.DateField(default=now())
+#     text = models.CharField(max_length=500)
+#     author = models.ForeignKey(User, on_delete=models.CASCADE)
+#     onTask = models.ForeignKey(Task, on_delete=models.CASCADE)
 
 
-class TaskUserIsAssignedMapping(models.Model):
-    created_at = models.DateField(default=now())
-    assignedUser = models.ForeignKey(User, on_delete=models.CASCADE)
-    onTask = models.ForeignKey(Task, on_delete=models.CASCADE)
+# class TaskUserIsAssignedMapping(models.Model):
+#     created_at = models.DateField(default=now())
+#     assignedUser = models.ForeignKey(User, on_delete=models.CASCADE)
+#     onTask = models.ForeignKey(Task, on_delete=models.CASCADE)
