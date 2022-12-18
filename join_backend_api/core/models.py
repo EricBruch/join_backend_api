@@ -48,6 +48,9 @@ class Task(models.Model):
     comments = models.ManyToManyField(
         User, through='TaskCommentsMapping', related_name='comments'
     )
+    assignedUsers = models.ManyToManyField(
+        User, through='TaskUserAssignedMapping', related_name='assignedUsers'
+    )
 
 
 class TaskCommentsMapping(models.Model):
@@ -57,7 +60,7 @@ class TaskCommentsMapping(models.Model):
     created_at = models.DateField(default=now())
 
 
-# class TaskUserIsAssignedMapping(models.Model):
-#     created_at = models.DateField(default=now())
-#     assignedUser = models.ForeignKey(User, on_delete=models.CASCADE)
-#     onTask = models.ForeignKey(Task, on_delete=models.CASCADE)
+class TaskUserAssignedMapping(models.Model):
+    assignedUser = models.ForeignKey(User, on_delete=models.CASCADE)
+    onTask = models.ForeignKey(Task, on_delete=models.CASCADE)
+    created_at = models.DateField(default=now())
