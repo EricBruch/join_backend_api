@@ -1,14 +1,32 @@
 from django.shortcuts import render
 
-# Create your views here.
+from .models import Board
+from .serializers import BoardSerializer
 
+from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.decorators import api_view
+from rest_framework.reverse import reverse
+
+
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'boards': reverse('board-list', request=request, format=format)
+    })
+
+
+class BoardViewSet(viewsets.ModelViewSet):
+    queryset = Board.objects.all()
+    serializer_class = BoardSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
 
 class HelloView(APIView):
     permission_classes = (IsAuthenticated,)
-    
+
     def get(self, request):
         content = {'message': 'Hello, World!'}
         return Response(content)
