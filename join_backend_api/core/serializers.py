@@ -1,14 +1,20 @@
 from rest_framework import serializers
-from .models import Board, Task
+from .models import Board, Task, TaskCommentsMapping
 
 
-class BoardSerializer(serializers.HyperlinkedModelSerializer):
+class BoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Board
         fields = ['id', 'title', 'created_at']
 
 
-class TaskSerializer(serializers.HyperlinkedModelSerializer):
+class TaskCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TaskCommentsMapping
+        fields = ['author', 'task', 'created_at', 'text']
+
+
+class TaskSerializer(serializers.ModelSerializer):
     author_name = serializers.ReadOnlyField(source='author.username')
     author_id = serializers.ReadOnlyField(source='author.id')
 
@@ -18,6 +24,8 @@ class TaskSerializer(serializers.HyperlinkedModelSerializer):
     board_title = serializers.CharField(source='board.title', read_only=True)
 
     parent = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    # comments = TaskCommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Task
@@ -38,5 +46,3 @@ class TaskSerializer(serializers.HyperlinkedModelSerializer):
             # 'comments',
             # 'assignedUsers'
         ]
-
-# TaskSerializer._declared_fields['parent'] = TaskSerializer()
