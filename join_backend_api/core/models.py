@@ -1,14 +1,10 @@
 from django.db import models
-# import datetime
 from dateutil.relativedelta import relativedelta
-from django.contrib.auth import get_user_model
+# from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 from django.utils.timezone import now
 
-# class Status(models.TextChoices):
-#     BACKLOG = 'BL'
-#     TO_DO = 'TD'
-
-User = get_user_model()
+# User = get_user_model()
 
 Urgency = models.TextChoices('Urgency', ['URGENT', 'MEDIUM', 'LOW'])
 
@@ -46,14 +42,14 @@ class Task(models.Model):
         default=Status.BACKLOG
     )
     comments = models.ManyToManyField(
-        User, through='TaskCommentsMapping', related_name='comments'
+        User, through='TaskComments', related_name='taskOfComment'
     )
     assignedUsers = models.ManyToManyField(
-        User, through='TaskUserAssignedMapping', related_name='assignedUsers'
+        User, through='TaskUserAssignedMapping', related_name='taskOfUser'
     )
 
 
-class TaskCommentsMapping(models.Model):
+class TaskComments(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     text = models.CharField(max_length=500)

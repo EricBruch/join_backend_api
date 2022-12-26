@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Board, Task, TaskCommentsMapping
+from .models import Board, Task, TaskComments
 
 
 class BoardSerializer(serializers.ModelSerializer):
@@ -10,7 +10,7 @@ class BoardSerializer(serializers.ModelSerializer):
 
 class TaskCommentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TaskCommentsMapping
+        model = TaskComments
         fields = ['author', 'task', 'created_at', 'text']
 
 
