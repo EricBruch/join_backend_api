@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+from corsheaders.defaults import default_headers
+from corsheaders.defaults import default_methods
 from pathlib import Path
 import os
 
@@ -47,6 +49,7 @@ INSTALLED_APPS = [
 
 
     # project Apps
+    'accounts',
     'core'
 ]
 
@@ -167,7 +170,6 @@ CORS_ALLOW_ALL_ORIGINS: True
 # ]
 
 # allowed methods
-from corsheaders.defaults import default_methods
 
 CORS_ALLOW_METHODS = list(default_methods) + [
     "HEAD",
@@ -176,7 +178,6 @@ CORS_ALLOW_METHODS = list(default_methods) + [
 ]
 
 # allowed headers
-from corsheaders.defaults import default_headers
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
     # "my-custom-header",
@@ -184,4 +185,9 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 
 CORS_PREFLIGHT_MAX_AGE: 86400  # Defaults to 86400 (one day).
 
-CORS_ALLOW_CREDENTIALS: True #  Defaults to False. # if True: cookies will be allowed to be included in cross-site HTTP requests
+# Defaults to False. # if True: cookies will be allowed to be included in cross-site HTTP requests
+CORS_ALLOW_CREDENTIALS: True
+
+
+####
+AUTH_USER_MODEL = "accounts.CustomUser"  # new

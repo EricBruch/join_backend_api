@@ -1,10 +1,8 @@
+from django.utils.timezone import now
 from django.db import models
 from dateutil.relativedelta import relativedelta
-# from django.contrib.auth import get_user_model
-from django.contrib.auth.models import User
-from django.utils.timezone import now
-
-# User = get_user_model()
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 Urgency = models.TextChoices('Urgency', ['URGENT', 'MEDIUM', 'LOW'])
 
@@ -42,21 +40,21 @@ class Task(models.Model):
         default=Status.BACKLOG
     )
     comments = models.ManyToManyField(
-        User, through='TaskComments', related_name='taskOfComment'
+        User, through='TaskComment', related_name='tasks'
     )
-    assignedUsers = models.ManyToManyField(
-        User, through='TaskUserAssignedMapping', related_name='taskOfUser'
-    )
+    # assignedUsers = models.ManyToManyField(
+    #     User, through='TaskUserAssignedMapping', related_name='taskOfUser'
+    # )
 
 
-class TaskComments(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+class TaskComment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     text = models.CharField(max_length=500)
     created_at = models.DateField(default=now())
 
 
-class TaskUserAssignedMapping(models.Model):
-    assignedUser = models.ForeignKey(User, on_delete=models.CASCADE)
-    onTask = models.ForeignKey(Task, on_delete=models.CASCADE)
-    created_at = models.DateField(default=now())
+# class TaskUserAssignedMapping(models.Model):
+#     assignedUser = models.ForeignKey(User, on_delete=models.CASCADE)
+#     onTask = models.ForeignKey(Task, on_delete=models.CASCADE)
+#     created_at = models.DateField(default=now())

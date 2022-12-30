@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from .models import Board, Task, TaskComments
+from .models import Board, Task, TaskComment
 from .serializers import BoardSerializer, TaskSerializer, TaskCommentSerializer
 
 from rest_framework import viewsets
@@ -32,7 +32,7 @@ class TaskViewSet(viewsets.ModelViewSet):
 
 
 class CommentsViewSet(viewsets.ModelViewSet):
-    queryset = TaskComments.objects.all()
+    queryset = TaskComment.objects.all()
     serializer_class = TaskCommentSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 

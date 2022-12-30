@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Board, Task, TaskComments
+from .models import Board, Task, TaskComment
 
 
 class BoardSerializer(serializers.ModelSerializer):
@@ -9,9 +9,14 @@ class BoardSerializer(serializers.ModelSerializer):
 
 
 class TaskCommentSerializer(serializers.ModelSerializer):
+    task = serializers.PrimaryKeyRelatedField(read_only=True)
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+    comment = serializers.CharField(source="text")
+    created_at = serializers.DateField()
+
     class Meta:
-        model = TaskComments
-        fields = ['author', 'task', 'created_at', 'text']
+        model = TaskComment
+        fields = ['user', 'task', 'created_at', 'comment',]
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -25,7 +30,7 @@ class TaskSerializer(serializers.ModelSerializer):
 
     parent = serializers.PrimaryKeyRelatedField(read_only=True)
 
-    # comments = TaskCommentSerializer(many=True, read_only=True)
+    comments = TaskCommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Task
@@ -43,6 +48,6 @@ class TaskSerializer(serializers.ModelSerializer):
             'parent',
             'urgency',
             'status',
-            # 'comments',
+            'comments',
             # 'assignedUsers'
         ]

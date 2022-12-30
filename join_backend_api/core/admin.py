@@ -1,8 +1,8 @@
 from django.contrib import admin
-from core.models import Board, Task, TaskComments, TaskUserAssignedMapping
+from core.models import Board, Task, TaskComment #, TaskUserAssignedMapping
 
 # Register your models here.
 admin.site.register(Board)
 admin.site.register(Task)
-admin.site.register(TaskComments)
-admin.site.register(TaskUserAssignedMapping)
+admin.site.register(TaskComment)
+# admin.site.register(TaskUserAssignedMapping)
