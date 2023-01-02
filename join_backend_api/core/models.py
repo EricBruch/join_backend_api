@@ -40,8 +40,7 @@ class Task(models.Model):
         default=Status.BACKLOG
     )
     comments = models.ManyToManyField(
-        User, through='TaskComment', related_name='tasks'
-    )
+        User, through='TaskComment', related_name='tasks')
     # assignedUsers = models.ManyToManyField(
     #     User, through='TaskUserAssignedMapping', related_name='taskOfUser'
     # )
