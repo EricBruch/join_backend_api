@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Board, Task, TaskComment
+from .models import Board, Task, TaskComment, TaskAssignedUser
 
 
 class BoardSerializer(serializers.ModelSerializer):
@@ -19,6 +19,16 @@ class TaskCommentSerializer(serializers.ModelSerializer):
         fields = ['user', 'task', 'created_at', 'text',]
 
 
+class TaskAssignedUserSerializer(serializers.ModelSerializer):
+    task = serializers.PrimaryKeyRelatedField(read_only=True)
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+    created_at = serializers.DateField()
+
+    class Meta:
+        model = TaskAssignedUser
+        fields = ['task', 'user', 'created_at']
+
+
 class TaskSerializer(serializers.ModelSerializer):
     author_name = serializers.ReadOnlyField(source='author.username')
     author_id = serializers.ReadOnlyField(source='author.id')
@@ -31,8 +41,12 @@ class TaskSerializer(serializers.ModelSerializer):
     parent = serializers.PrimaryKeyRelatedField(read_only=True)
 
     comments = TaskCommentSerializer(
-        source="taskcomment_set", read_only=True, many=True,)
-    # comments = MyTaskCommentSerializer(many=True, read_only=True)
+        source="taskcomment_set", read_only=True, many=True,
+    )
+
+    assignedUsers = TaskAssignedUserSerializer(
+        source="taskassigneduser_set", read_only=True, many=True,
+    )
 
     class Meta:
         model = Task
@@ -51,5 +65,5 @@ class TaskSerializer(serializers.ModelSerializer):
             'urgency',
             'status',
             'comments',
-            # 'assignedUsers'
+            'assignedUsers'
         )
