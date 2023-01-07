@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Board, Task, TaskComment, TaskAssignedUser
+from accounts.models import CustomUser
 
 
 class BoardSerializer(serializers.ModelSerializer):
@@ -10,9 +11,10 @@ class BoardSerializer(serializers.ModelSerializer):
 
 class TaskCommentSerializer(serializers.ModelSerializer):
     task = serializers.PrimaryKeyRelatedField(read_only=True)
-    user = serializers.PrimaryKeyRelatedField(read_only=True)
+    user = serializers.PrimaryKeyRelatedField(
+        queryset=CustomUser.objects.all())
     text = serializers.CharField()
-    created_at = serializers.DateField()
+    created_at = serializers.DateField(required=False)
 
     class Meta:
         model = TaskComment
@@ -21,8 +23,9 @@ class TaskCommentSerializer(serializers.ModelSerializer):
 
 class TaskAssignedUserSerializer(serializers.ModelSerializer):
     task = serializers.PrimaryKeyRelatedField(read_only=True)
-    user = serializers.PrimaryKeyRelatedField(read_only=True)
-    created_at = serializers.DateField()
+    user = serializers.PrimaryKeyRelatedField(
+        queryset=CustomUser.objects.all())
+    created_at = serializers.DateField(required=False)
 
     class Meta:
         model = TaskAssignedUser
@@ -31,21 +34,24 @@ class TaskAssignedUserSerializer(serializers.ModelSerializer):
 
 class TaskSerializer(serializers.ModelSerializer):
     author_name = serializers.ReadOnlyField(source='author.username')
-    author_id = serializers.ReadOnlyField(source='author.id')
+    author = serializers.PrimaryKeyRelatedField(
+        queryset=CustomUser.objects.all())
 
-    boardId = serializers.PrimaryKeyRelatedField(
-        source="board", read_only=True
+    created_at = serializers.DateField(required=False)
+
+    board_id = serializers.PrimaryKeyRelatedField(
+        source="board", queryset=Board.objects.all()
     )
     board_title = serializers.CharField(source='board.title', read_only=True)
 
-    parent = serializers.PrimaryKeyRelatedField(read_only=True)
+    parent = serializers.PrimaryKeyRelatedField(queryset=Task.objects.all())
 
     comments = TaskCommentSerializer(
-        source="taskcomment_set", read_only=True, many=True,
+        source="taskcomment_set",  many=True,
     )
 
     assignedUsers = TaskAssignedUserSerializer(
-        source="taskassigneduser_set", read_only=True, many=True,
+        source="taskassigneduser_set", many=True,
     )
 
     class Meta:
@@ -53,13 +59,13 @@ class TaskSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'title',
+            'author',
             'author_name',
-            'author_id',
             'category',
             'description',
             'due_date',
             'created_at',
-            'boardId',
+            'board_id',
             'board_title',
             'parent',
             'urgency',
@@ -67,3 +73,20 @@ class TaskSerializer(serializers.ModelSerializer):
             'comments',
             'assignedUsers'
         )
+
+    def create(self, validated_data):
+        # title = validated_data.pop('title')
+        # category = validated_data.pop('category')
+        # description = validated_data.pop('description')
+        # due_date = validated_data.pop('due_date')
+        # created_at = validated_data.pop('created_at')
+        # urgency = validated_data.pop('urgency')
+        # status = validated_data.pop('status')
+
+        # Task.objects.create(title=title, )
+
+        orderedDicts = validated_data.pop('taskcomment_set')
+        print('asdf', orderedDicts)
+
+        for dict in orderedDicts:
+            print(dict)
