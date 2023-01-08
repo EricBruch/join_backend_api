@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Board, Task, TaskComment, TaskAssignedUser
 from accounts.models import CustomUser
+from django.utils.timezone import now
 
 
 class BoardSerializer(serializers.ModelSerializer):
@@ -44,14 +45,19 @@ class TaskSerializer(serializers.ModelSerializer):
     )
     board_title = serializers.CharField(source='board.title', read_only=True)
 
-    parent = serializers.PrimaryKeyRelatedField(queryset=Task.objects.all())
+    parent = serializers.PrimaryKeyRelatedField(
+        queryset=Task.objects.all(), allow_null=True)
 
     comments = TaskCommentSerializer(
-        source="taskcomment_set",  many=True,
+        source="taskcomment_set",
+        many=True,
+        default=[]
     )
 
     assignedUsers = TaskAssignedUserSerializer(
-        source="taskassigneduser_set", many=True,
+        source="taskassigneduser_set",
+        many=True,
+        default=[]
     )
 
     class Meta:
@@ -75,18 +81,56 @@ class TaskSerializer(serializers.ModelSerializer):
         )
 
     def create(self, validated_data):
-        # title = validated_data.pop('title')
-        # category = validated_data.pop('category')
-        # description = validated_data.pop('description')
-        # due_date = validated_data.pop('due_date')
-        # created_at = validated_data.pop('created_at')
-        # urgency = validated_data.pop('urgency')
-        # status = validated_data.pop('status')
+        task = create_and_get_Task(validated_data)
 
-        # Task.objects.create(title=title, )
+        comments = validated_data.pop('taskcomment_set')
+        if comments:
+            create_task_comments(comments, task)
 
-        orderedDicts = validated_data.pop('taskcomment_set')
-        print('asdf', orderedDicts)
+        assignedUsers = validated_data.pop('taskassigneduser_set')
+        if assignedUsers:
+            create_task_assigned_users(assignedUsers, task)
 
-        for dict in orderedDicts:
-            print(dict)
+        return task
+
+
+def create_and_get_Task(validated_data):
+    task = Task.objects.create(
+        title=validated_data.pop('title'),
+        author=validated_data.pop('author'),
+        category=validated_data.pop('category'),
+        description=validated_data.pop('description'),
+        due_date=validated_data.pop('due_date'),
+        created_at=now_or_date(validated_data.pop('created_at')),
+        board=validated_data.pop('board'),
+        parent=validated_data.pop('parent'),
+        urgency=validated_data.pop('urgency'),
+        status=validated_data.pop('status')
+    )
+    task.save()
+    return task
+
+
+def create_task_comments(comments, task):
+    for c in comments:
+        newComment = TaskComment.objects.create(
+            user=c.get('user'),
+            task=task,
+            text=c.get('text'),
+            created_at=now_or_date(c.get('created_at'))
+        )
+        newComment.save()
+
+
+def create_task_assigned_users(assignedUsers, task):
+    for aU in assignedUsers:
+        newAssignedUser = TaskAssignedUser.objects.create(
+            user=aU.get('user'),
+            task=task,
+            created_at=now_or_date(aU.get('created_at'))
+        )
+        newAssignedUser.save()
+
+
+def now_or_date(date):
+    return now() if date is None else date
