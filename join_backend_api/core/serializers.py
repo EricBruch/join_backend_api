@@ -93,6 +93,25 @@ class TaskSerializer(serializers.ModelSerializer):
 
         return task
 
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get('title', instance.title)
+        instance.author = validated_data.pop('author', instance.author)
+        instance.category = validated_data.pop('category', instance.category)
+        instance.description = validated_data.pop(
+            'description', instance.description
+        )
+        instance.due_date = validated_data.pop('due_date', instance.due_date)
+        instance.created_at = validated_data.pop(
+            'created_at', instance.created_at
+        )
+        instance.board = validated_data.pop('board', instance.board)
+        instance.parent = validated_data.pop('parent', instance.parent)
+        instance.urgency = validated_data.pop('urgency', instance.urgency)
+        instance.status = validated_data.pop('status', instance.status)
+
+        instance.save()
+        return instance
+
 
 def create_and_get_Task(validated_data):
     task = Task.objects.create(
