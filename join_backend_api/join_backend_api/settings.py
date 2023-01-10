@@ -46,6 +46,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     "corsheaders",
+    'dj_rest_auth',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
 
 
     # project Apps
@@ -190,4 +196,9 @@ CORS_ALLOW_CREDENTIALS: True
 
 
 ####
-AUTH_USER_MODEL = "accounts.CustomUser"  # new
+AUTH_USER_MODEL = "accounts.CustomUser"
+
+# dj-rest-auth
+SITE_ID = 1
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
