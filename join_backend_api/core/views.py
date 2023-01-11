@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
-from .models import Board, Task, TaskComment
-from .serializers import BoardSerializer, TaskSerializer, TaskCommentSerializer
+from .models import Board, Task, TaskComment, TaskAssignedUser
+from .serializers import BoardSerializer, TaskSerializer, TaskCommentSerializer, TaskAssignedUserSerializer
 
 from rest_framework import viewsets
 from rest_framework.views import APIView
@@ -35,7 +35,11 @@ class CommentsViewSet(viewsets.ModelViewSet):
     queryset = TaskComment.objects.all()
     serializer_class = TaskCommentSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-
+    
+class AssignedUsersViewSet(viewsets.ModelViewSet):
+    queryset = TaskAssignedUser.objects.all()
+    serializer_class = TaskAssignedUserSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 class HelloView(APIView):
     permission_classes = (IsAuthenticated,)
