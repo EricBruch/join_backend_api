@@ -1,0 +1,316 @@
+{
+	"info": {
+		"_postman_id": "9dd2584f-85cb-4914-8eac-6ff39dc80ce7",
+		"name": "Join API Eric",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "getToken | api-token-auth",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "eric",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "asdf",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://join.pythonanywhere.com/api-token-auth/",
+							"protocol": "https",
+							"host": [
+								"join",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"api-token-auth",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "dj-rest-auth/registration/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"troja\",\n  \"email\": \"eric.bruch@t-online.de\",\n  \"password1\": \"adgjlqet\",\n  \"password2\": \"adgjlqet\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://join.pythonanywhere.com/dj-rest-auth/registration/",
+							"protocol": "https",
+							"host": [
+								"join",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"dj-rest-auth",
+								"registration",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "dj-rest-auth | updatePassword",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token 1b04058d26db3b6e682805079118b59e29860922",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"new_password1\": \"adgjlqet\",\n    \"new_password2\": \"adgjlqet\",\n    \"old_password\": \"adgjlqez\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://join.pythonanywhere.com/dj-rest-auth/password/change/",
+							"protocol": "https",
+							"host": [
+								"join",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"dj-rest-auth",
+								"password",
+								"change",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "getTasks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://join.pythonanywhere.com/tasks",
+					"protocol": "https",
+					"host": [
+						"join",
+						"pythonanywhere",
+						"com"
+					],
+					"path": [
+						"tasks"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postTasks",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token d35e02a84ee60fd63cc5a1c4e03d181fc9c4c3f0",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"title\": \"Clean the kitchen 2\",\n        \"author\": 1,\n        \"category\": \"Cleaning\",\n        \"description\": \"clean the kitchen including the sink and the fridge\",\n        \"due_date\": \"2023-04-02\",\n        \"created_at\": \"2023-01-02\",\n        \"board_id\": 1,\n        \"parent\": null,\n        \"urgency\": \"MEDIUM\",\n        \"status\": \"BACKLOG\",\n        \"comments\": [\n            {\n                \"user\": 1,\n                \"created_at\": \"2023-01-02\",\n                \"text\": \"nice go on\"\n            },\n                        {\n                \"user\": 1,\n                \"created_at\": \"2023-01-02\",\n                \"text\": \"nnow even more\"\n            }\n        ]\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://join.pythonanywhere.com/tasks/",
+					"protocol": "https",
+					"host": [
+						"join",
+						"pythonanywhere",
+						"com"
+					],
+					"path": [
+						"tasks",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Tasks",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 3a4a7d39dce928042bc76312db7cf7f5f1b69fad",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"title\": \"updated title dubi\",\n        \"author\": 1,\n        \"category\": \"Cleaning\",\n        \"description\": \"clean the kitchen including the sink and the fridge\",\n        \"due_date\": \"2023-04-02\",\n        \"created_at\": \"2023-01-02\",\n        \"board_id\": 1,\n        \"parent\": 1,\n        \"urgency\": \"MEDIUM\",\n        \"status\": \"BACKLOG\",\n        \"comments\": [\n            {\n                \"user\": 1,\n                \"created_at\": \"2023-01-02\",\n                \"text\": \"nice go on\"\n            },\n                        {\n                \"user\": 1,\n                \"created_at\": \"2023-01-02\",\n                \"text\": \"nnow even more\"\n            }\n        ]\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://join.pythonanywhere.com/tasks/15/",
+					"protocol": "https",
+					"host": [
+						"join",
+						"pythonanywhere",
+						"com"
+					],
+					"path": [
+						"tasks",
+						"15",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete Task",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 3a4a7d39dce928042bc76312db7cf7f5f1b69fad",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://join.pythonanywhere.com/tasks/14/",
+					"protocol": "https",
+					"host": [
+						"join",
+						"pythonanywhere",
+						"com"
+					],
+					"path": [
+						"tasks",
+						"14",
+						""
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBoards",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://join.pythonanywhere.com/boards/",
+					"protocol": "https",
+					"host": [
+						"join",
+						"pythonanywhere",
+						"com"
+					],
+					"path": [
+						"boards",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddBoard",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token df1f7d50bdc42a51592adb5dc799b7c2423b1899",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Hello my Board\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://join.pythonanywhere.com/boards/",
+					"protocol": "https",
+					"host": [
+						"join",
+						"pythonanywhere",
+						"com"
+					],
+					"path": [
+						"boards",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
