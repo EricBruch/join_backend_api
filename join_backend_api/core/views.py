@@ -11,12 +11,12 @@ from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
 
 
-@api_view(['GET'])
-def api_root(request, format=None):
-    return Response({
-        'boards': reverse('board-list', request=request, format=format),
-        'tasks': reverse('task-list', request=request, format=format)
-    })
+# @api_view(['GET'])
+# def api_root(request, format=None):
+#     return Response({
+#         'boards': reverse('board-list', request=request, format=format),
+#         'tasks': reverse('task-list', request=request, format=format)
+#     })
 
 
 class BoardViewSet(viewsets.ModelViewSet):
