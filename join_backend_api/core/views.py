@@ -11,14 +11,6 @@ from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
 
 
-# @api_view(['GET'])
-# def api_root(request, format=None):
-#     return Response({
-#         'boards': reverse('board-list', request=request, format=format),
-#         'tasks': reverse('task-list', request=request, format=format)
-#     })
-
-
 class BoardViewSet(viewsets.ModelViewSet):
     queryset = Board.objects.all()
     serializer_class = BoardSerializer
@@ -35,11 +27,13 @@ class CommentsViewSet(viewsets.ModelViewSet):
     queryset = TaskComment.objects.all()
     serializer_class = TaskCommentSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-    
+
+
 class AssignedUsersViewSet(viewsets.ModelViewSet):
     queryset = TaskAssignedUser.objects.all()
     serializer_class = TaskAssignedUserSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+
 
 class HelloView(APIView):
     permission_classes = (IsAuthenticated,)
