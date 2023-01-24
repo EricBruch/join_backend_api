@@ -23,3 +23,6 @@ venv.bak/
 
 # IDE
 .vscode
+
+#######
+up.sh
