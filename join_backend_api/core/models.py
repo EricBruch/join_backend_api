@@ -27,7 +27,11 @@ class Task(models.Model):
     created_at = models.DateField(default=now())
     board = models.ForeignKey('Board', on_delete=models.CASCADE)
     parent = models.ForeignKey(
-        'self', blank=True, null=True, related_name='children', on_delete=models.CASCADE
+        'self',
+        blank=True,
+        null=True,
+        related_name='children',
+        on_delete=models.CASCADE
     )
     urgency = models.CharField(
         choices=Urgency.choices,
