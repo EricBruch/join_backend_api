@@ -2,6 +2,8 @@ from django.utils.timezone import now
 from django.db import models
 from dateutil.relativedelta import relativedelta
 from django.contrib.auth import get_user_model
+
+
 User = get_user_model()
 
 Urgency = models.TextChoices('Urgency', ['URGENT', 'MEDIUM', 'LOW'])
