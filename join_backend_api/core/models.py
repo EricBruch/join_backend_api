@@ -57,3 +57,9 @@ class TaskAssignedUser(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     created_at = models.DateField(default=now())
+
+
+class Message(models.Model):
+    text = models.CharField(max_length=500)
+    created_at = models.DateField(default=now())
+    author = models.CharField(max_length=150)
