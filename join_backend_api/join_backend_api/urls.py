@@ -18,9 +18,15 @@ from django.urls import path, include
 from rest_framework.authtoken.views import obtain_auth_token
 from core.views import HelloView
 
+
+def trigger_error(request):
+    division_by_zero = 1 / 0
+
+
 urlpatterns = [
-    path('', include('core.urls')),
-    path('admin/', admin.site.urls),
-    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
-    path('hello/', HelloView.as_view(), name='hello'),
+    path("", include("core.urls")),
+    path("admin/", admin.site.urls),
+    path("api-token-auth/", obtain_auth_token, name="api_token_auth"),
+    path("hello/", HelloView.as_view(), name="hello"),
+    path("sentry-debug/", trigger_error),
 ]
